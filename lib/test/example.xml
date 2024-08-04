@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<module name="module name" initial_stage="in" drain_stage="out">
+
+    <stage name="in">
+        <model source="forward">
+            <!-- cofigure model -->
+            <param name="name">value</param>
+        </model>
+
+        <stage name="stage 1">
+            <condition name="cond 1">
+                <!-- cofigure condition from src -->
+                <param name="name">value</param>
+                <or>
+                </or>
+            </condition>
+            <stage link="out"/>
+        </stage>
+
+        <stage name="stage 2">
+            <condition name="cond 2">
+                <param name="name">value</param>
+                <and>
+                </and>
+            </condition>
+            <stage link="out"/>
+        </stage>
+
+        <stage link="out"/>
+    </stage>
+
+</module>
+
+<!-- reuse stages, conditions -->
+<!-- stage -->
+<!-- model -->
+<!-- condition -->
+<!-- param -->
+<!-- and/or/equal/lte/geq/ -->
+<!-- include -->
+<!-- define -->
