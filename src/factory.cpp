@@ -1,4 +1,4 @@
-#include <builders/module_builder.h>
+#include "lib/builders/module.h"
 
 #include "filter.h"
 #include "factory.h"

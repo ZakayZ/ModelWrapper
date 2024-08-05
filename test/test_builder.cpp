@@ -5,18 +5,13 @@
 
 #include <COLA.hh>
 
-#include "util/util.h"
-
-#include "condition/builders/group.h"
-
-#include "builders/module_builder.h"
-#include "builders/xml.h"
-
-#include "registry_all.h"
-
-#include "stage.h"
-
-#include "model/iface.h"
+#include "lib/condition/builders/group.h"
+#include "lib/config/registry.h"
+#include "lib/config/stage.h"
+#include "lib/builders/module.h"
+#include "lib/builders/xml.h"
+#include "lib/model/iface.h"
+#include "lib/util/util.h"
 
 using namespace xml_impl;
 using namespace config_builder;

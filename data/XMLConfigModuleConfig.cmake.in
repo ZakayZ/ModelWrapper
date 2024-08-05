@@ -3,5 +3,5 @@
 find_package(COLA REQUIRED) # COLA requirement
 #find_package(ROOT) (additional requirements)
 
-include(@CMAKE_INSTALL_PREFIX@/lib/cmake/ExModule/ExModuleExport.cmake)
+include(@CMAKE_INSTALL_PREFIX@/lib/cmake/XMLConfigModule/XMLConfigModuleExport.cmake)
 #set_and_check(...), etc.

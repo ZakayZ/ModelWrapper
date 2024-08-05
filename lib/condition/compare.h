@@ -3,7 +3,7 @@
 #include <COLA.hh>
 
 #include "iface.h"
-#include "property/iface.h"
+#include "lib/property/iface.h"
 
 namespace config_builder {
 

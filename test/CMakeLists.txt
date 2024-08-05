@@ -14,13 +14,17 @@ include(GoogleTest)
 
 set(Tests
         test.cpp
+        test_builder.cpp
+        test_condition.cpp
+        test_default.cpp
+        test_registry.cpp
 )
 
 file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/example.xml config.xml)
 
 add_executable(ConfigInterfaceTest ${Tests})
 
-target_link_libraries(ConfigInterfaceTest XMLConfigHandler)
+target_link_libraries(ConfigInterfaceTest XMLConfigModule)
 target_link_libraries(ConfigInterfaceTest GTest::GTest GTest::Main)
 
 gtest_discover_tests(ConfigInterfaceTest)

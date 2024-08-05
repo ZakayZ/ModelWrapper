@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "condition/iface.h"
-#include "model/iface.h"
-#include "registry/registry.h"
+#include "lib/condition/iface.h"
+#include "lib/model/iface.h"
+#include "lib/registry/registry.h"
 #include "stage.h"
 
 namespace config_builder {

@@ -1,3 +1,3 @@
 #pragma once
 
-#include <registry.h>
+#include "lib/config/registry.h"

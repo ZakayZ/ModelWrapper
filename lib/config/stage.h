@@ -6,8 +6,8 @@
 
 #include <COLA.hh>
 
-#include "condition/iface.h"
-#include "model/iface.h"
+#include "lib/condition/iface.h"
+#include "lib/model/iface.h"
 
 namespace config_builder {
 

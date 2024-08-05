@@ -1,7 +1,7 @@
 #pragma once
 
-#include "builders/context.h"
-#include "condition/iface.h"
+#include "lib/condition/iface.h"
+#include "lib/util/context.h"
 
 namespace config_builder {
 

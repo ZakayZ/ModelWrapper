@@ -4,7 +4,7 @@
 
 #include <COLA.hh>
 
-#include "util/types.h"
+#include "lib/util/types.h"
 
 namespace config_builder {
 

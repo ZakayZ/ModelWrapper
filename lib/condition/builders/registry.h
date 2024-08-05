@@ -1,7 +1,7 @@
 #pragma once
 
 #include "iface.h"
-#include "registry/static_registry.h"
+#include "lib/registry/static_registry.h"
 
 namespace config_builder {
 

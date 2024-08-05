@@ -1,6 +1,7 @@
 #pragma once
 
-#include "module.h"
+#include "lib/config/module.h"
+
 #include "xml.h"
 
 namespace config_builder {

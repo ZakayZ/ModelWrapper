@@ -2,7 +2,7 @@
 
 #include <COLA.hh>
 
-#include "registry/static_registry.h"
+#include "lib/registry/static_registry.h"
 #include "iface.h"
 
 namespace config_builder {

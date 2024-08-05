@@ -4,8 +4,8 @@
 
 #include <COLA.hh>
 
-#include "condition/compare.h"
-#include "property/registry.h"
+#include "lib/condition/compare.h"
+#include "lib/property/registry.h"
 
 #include "iface.h"
 #include "registry.h"

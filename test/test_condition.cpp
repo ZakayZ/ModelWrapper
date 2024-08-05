@@ -3,10 +3,9 @@
 
 #include <COLA.hh>
 
-#include "condition/compare.h"
-#include "condition/group.h"
-
-#include "property/registry.h"
+#include "lib/condition/compare.h"
+#include "lib/condition/group.h"
+#include "lib/property/registry.h"
 
 using namespace config_builder;
 

@@ -1,4 +1,4 @@
-#include <module.h>
+#include "lib/config/module.h"
 
 #include "filter.h"
 

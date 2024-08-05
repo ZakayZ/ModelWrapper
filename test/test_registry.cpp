@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "registry/registry.h"
-#include "registry/static_registry.h"
+#include "lib/registry/registry.h"
+#include "lib/registry/static_registry.h"
 
 using namespace config_builder;
 

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "builders/context.h"
-#include "builders/xml.h"
-#include "condition/group.h"
-#include "util/util.h"
+#include "lib/condition/group.h"
+#include "lib/util/context.h"
+#include "lib/util/util.h"
 
 #include "iface.h"
 #include "registry.h"

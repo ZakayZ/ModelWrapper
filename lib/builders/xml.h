@@ -2,10 +2,9 @@
 
 #include <string>
 
-#include "util/types.h"
-#include "xml_parser/src/pugixml.hpp"
-
-#include "context.h"
+#include "lib/util/context.h"
+#include "lib/util/types.h"
+#include "lib/xml_parser/src/pugixml.hpp"
 
 namespace xml_impl {
     using namespace config_builder;

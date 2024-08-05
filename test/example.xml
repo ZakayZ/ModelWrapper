@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<module name="test" initial_stage="in" drain_stage="out">
+    <stage name="in">
+        <stage name="stage">
+            <model source="append"/>
+
+            <condition build="cutoff">
+                <!-- cofigure condition builder -->
+                <param name="A_threshold">5</param>
+                <param name="Z_threshold">3</param>
+            </condition>
+
+            <!-- default stage -->
+            <stage link="out"/>
+        </stage>
+
+        <!-- default stage -->
+        <stage link="out"/>
+    </stage>
+</module>

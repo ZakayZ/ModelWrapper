@@ -3,9 +3,9 @@
 #include <variant>
 #include <vector>
 
-#include "condition/iface.h"
-#include "model/iface.h"
-#include "stage.h"
+#include "lib/condition/iface.h"
+#include "lib/model/iface.h"
+#include "lib/config/stage.h"
 
 namespace config_builder {
 

@@ -4,10 +4,7 @@
 #include <memory>
 
 #include <COLA.hh>
-
-namespace config_builder {
-    class Module;
-}
+#include "lib/config/module.h"
 
 namespace cola {
 

@@ -1,16 +1,16 @@
 #include <string>
 #include <unordered_set>
 
-#include "condition/builders/registry.h"
-#include "condition/iface.h"
-#include "condition/registry.h"
-#include "model/builders/registry.h"
-#include "model/iface.h"
-#include "model/registry.h"
-#include "stage.h"
-#include "util/util.h"
+#include "lib/condition/builders/registry.h"
+#include "lib/condition/iface.h"
+#include "lib/condition/registry.h"
+#include "lib/config/stage.h"
+#include "lib/model/builders/registry.h"
+#include "lib/model/iface.h"
+#include "lib/model/registry.h"
+#include "lib/util/util.h"
 
-#include "module_builder.h"
+#include "module.h"
 
 using namespace xml_impl;
 using namespace config_builder;

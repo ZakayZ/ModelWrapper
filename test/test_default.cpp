@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "registry_all.h"
+
+#include "lib/config/registry.h"
 
 using namespace config_builder;
 
