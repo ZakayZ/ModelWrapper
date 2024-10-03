@@ -13,10 +13,10 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 
 set(Tests
-        test.cpp
         test_builder.cpp
         test_condition.cpp
         test_default.cpp
+        test_module.cpp
         test_registry.cpp
 )
 

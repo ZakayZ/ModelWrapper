@@ -2,13 +2,23 @@
 
 using namespace config_builder;
 
+// TODO: better compare
+bool operator==(const cola::Particle& a, const cola::Particle& b) {
+    return a.pdgCode == b.pdgCode;
+}
+
 bool BaseStage::Propogate(const cola::Particle& particle) {
-    if (condition.has_value() && !condition.value()(particle)) {
+    if (condition.has_value() && !condition->operator()(particle)) {
         return false;
     }
 
     if (model.has_value()) {
-        for (const auto& particle: model.value().get().BreakItUp(particle)) {
+        auto fragments = model->get().BreakItUp(particle);
+        if (fragments.size() == 0 || (fragments.size() == 1 && fragments.front() == particle)) {
+            return false;
+        }
+
+        for (const auto& particle: fragments) {
             PushNext(particle);
         }
     } else {
@@ -38,4 +48,8 @@ void BaseStage::PushNext(const cola::Particle& particle) {
 bool DrainStage::Propogate(const cola::Particle& particle) {
     result.push_back(particle);
     return true;
+}
+
+bool MockStage::Propogate(const cola::Particle& /* particle */) {
+    throw std::runtime_error("mock stage schouldn't be used directly");
 }

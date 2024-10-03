@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<module name="G4Handler" initial_stage="in" drain_stage="out">
+    <stage name="photon evaporation stage">
+        <model source="geant4_photon_evaporation"/>
+
+        <stage link="out"/>
+    </stage>
+
+    <stage name="evaporation pipeline">
+        <stage name="fermi wrapper">
+            <condition build="fermi_condition">
+                <param name="A">19</param>
+                <param name="Z">9</param>
+            </condition>
+
+            <stage name="fermi stage">
+                <model source="geant4_fermi"/>
+
+                <stage link="photon evaporation stage"/>
+            </stage>
+
+            <stage link="out"/>
+        </stage>
+
+        <stage name="evaporation wrapper">
+            <stage name="evaporation stage">
+                <model source="geant4_evaporation"/>
+
+                <stage link="evaporation pipeline"/>
+            </stage>
+
+            <stage link="out"/>
+        </stage>
+    </stage>
+
+    <stage name="in">
+        <stage name="fast finish">
+            <condition build="stable">
+                <param name="threshold">0</param>
+            </condition>
+
+            <stage link="out"/>
+        </stage>
+
+        <stage name="multifragmentation">
+            <model source="geant4_stafMF"/>
+
+            <condition build="statMF_condition">
+                <param name="A">19</param>
+                <param name="Z">9</param>
+                <param name="lower_transition">3MeV</param>
+                <param name="upper_transition">5MeV</param>
+            </condition>
+
+            <stage link="evaporation pipeline"/>
+        </stage>
+
+        <stage link="evaporation pipeline"/>
+    </stage>
+</module>

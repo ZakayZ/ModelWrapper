@@ -9,8 +9,29 @@ namespace config_builder {
 
     template <typename Value>
     class Registry {
+    private:
+        // pointers will be deleted by the container
+        using InnerValue = std::conditional_t<
+                                std::is_pointer_v<Value>,
+                                std::unique_ptr<std::remove_pointer_t<Value>>,
+                                Value
+                            >;
+        using Container = std::unordered_map<std::string, InnerValue>;
+
     public:
         using Record = std::reference_wrapper<std::remove_pointer_t<Value>>;
+
+        using iterator = Container::iterator;
+        using const_iterator = Container::const_iterator;
+
+        iterator begin() { return registry_.begin(); }
+        iterator end() { return registry_.end(); }
+
+        const_iterator begin() const { return registry_.cbegin(); }
+        const_iterator end() const { return registry_.cend(); }
+
+        const_iterator cbegin() const { return registry_.cbegin(); }
+        const_iterator cend() const { return registry_.cend(); }
 
         Registry() = default;
         Registry(Registry&&) = default;
@@ -60,15 +81,6 @@ namespace config_builder {
         }
 
     private:
-
-        // pointers will be deleted by the container
-        using InnerValue = std::conditional_t<
-                                std::is_pointer_v<Value>,
-                                std::unique_ptr<std::remove_pointer_t<Value>>,
-                                Value
-                            >;
-        using Container = std::unordered_map<std::string, InnerValue>;
-
         Container registry_;
     };
 

@@ -35,4 +35,5 @@
 *cmake-*
 OldFermiBreakUp
 .idea
+.vscode
 build

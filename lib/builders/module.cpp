@@ -35,6 +35,12 @@ Module ModuleBuilder::Build(const XMLNode& node) {
     // must be defined
     auto& init = std::get<BaseStage>(data.stages.Find(intitial_stage_name).value().get());
 
+    for (const auto& [name, stage]: data.stages) {
+        if (std::holds_alternative<MockStage>(stage)) {
+            std::runtime_error("stage \"" + name + "\" wasn't defined");
+        }
+    }
+
     return Module(std::move(data), init, drain);
 }
 
@@ -56,7 +62,7 @@ ConfigEntity ModuleVisiter::BuildEntity(const Context& context) {
     }
 
     if (auto builder = ConditionBuilderRegistry::Find(context.tag); builder.has_value()) {
-        return builder.value().get().Build(context);
+        return builder->get().Build(context);
     }
 
     throw std::runtime_error("unknown tag \"" + context.tag + "\"");
@@ -70,32 +76,45 @@ std::reference_wrapper<Stage> ModuleVisiter::BuildStage(const Context& context) 
     if (auto link_it = context.attributes.find("link"); link_it != context.attributes.end()) {
         auto stage = data_.stages.Find(link_it->second);
         if (!stage.has_value()) {
-            // TODO did you mean msg
-            throw std::runtime_error("no linked stage found \"" + link_it->second + "\"");
+            // create mock stage
+            data_.stages.Register(link_it->second, MockStage());
+            stage = data_.stages.Find(link_it->second);
         }
 
-        return stage.value().get();
+        return stage->get();
     }
 
     const auto& name = context.attributes.at("name");  // it must exist
 
-    BaseStage stage;
+    if (auto stage = data_.stages.Find(name); stage.has_value()) {
+        if (!std::holds_alternative<MockStage>(stage->get())) {
+            throw std::runtime_error("stage \"" + name + "\" defined twice");
+        }
+
+        stage->get() = BaseStage();
+    } else {
+        data_.stages.Register(name, BaseStage());
+    }
+
+    Stage& stage = data_.stages.Find(name).value().get();
+    BaseStage& base_stage = std::get<BaseStage>(stage);
+
     for (const auto& child: context.children) {
         std::visit(overloaded{
             [&](std::reference_wrapper<Stage> child_stage) {
-                stage.stages.emplace_back(child_stage);
+                base_stage.stages.emplace_back(child_stage);
             },
             [&](const Condition& condition) {
-                if (stage.condition.has_value()) {
+                if (base_stage.condition.has_value()) {
                     throw std::runtime_error("multiple condition tags in stage \"" + name + "\"");
                 }
-                stage.condition = condition;
+                base_stage.condition = condition;
             },
             [&](std::reference_wrapper<IModel> model) {
-                if (stage.model.has_value()) {
+                if (base_stage.model.has_value()) {
                     throw std::runtime_error("multiple model tags in stage \"" + name + "\"");
                 }
-                stage.model = model;
+                base_stage.model = model;
             },
             [&](nullptr_t /* arg */) {
                 throw std::runtime_error("multiple module elements in config");
@@ -103,11 +122,7 @@ std::reference_wrapper<Stage> ModuleVisiter::BuildStage(const Context& context) 
         }, child);
     }
 
-    if (auto is_new = data_.stages.Register(name, std::move(stage)); !is_new) {
-        throw std::runtime_error("duplicate stage: \"" + name + "\"");
-    }
-
-    return data_.stages.Find(name).value();
+    return stage;
 }
 
 Condition ModuleVisiter::BuildCondition(const Context& context) {
@@ -122,7 +137,7 @@ Condition ModuleVisiter::BuildCondition(const Context& context) {
             throw std::runtime_error("no linked condition found \"" + link_it->second + "\"");
         }
 
-        return condition.value().get();
+        return condition->get();
     }
 
     if (auto build_it = context.attributes.find("build"); build_it != context.attributes.end()) {
@@ -132,7 +147,7 @@ Condition ModuleVisiter::BuildCondition(const Context& context) {
             throw std::runtime_error("no condition builder found \"" + build_it->second + "\"");
         }
 
-        return builder.value().get().Build(context);
+        return builder->get().Build(context);
     }
 
     if (auto source_it = context.attributes.find("source"); source_it != context.attributes.end()) {
@@ -142,7 +157,7 @@ Condition ModuleVisiter::BuildCondition(const Context& context) {
             throw std::runtime_error("no condition source found \"" + source_it->second + "\"");
         }
 
-        return condition.value().get();
+        return condition->get();
     }
 
     const auto& name = context.attributes.at("name");  // it must exist
@@ -155,7 +170,7 @@ Condition ModuleVisiter::BuildCondition(const Context& context) {
         throw std::runtime_error("duplicate condition: \"" + name + "\"");
     }
 
-    return data_.conditions.Find(name).value().get();
+    return data_.conditions.Find(name)->get();
 }
 
 std::reference_wrapper<IModel> ModuleVisiter::BuildModel(const Context& context) {
@@ -168,7 +183,7 @@ std::reference_wrapper<IModel> ModuleVisiter::BuildModel(const Context& context)
         if (!builder.has_value()) {
             throw std::runtime_error("no model builder found: \"" + build_it->second + "\"");
         }
-        auto model = builder.value().get().Build(context);
+        auto model = builder->get().Build(context);
         data_.models.emplace_back(model);
         return *model;
     }
@@ -179,7 +194,7 @@ std::reference_wrapper<IModel> ModuleVisiter::BuildModel(const Context& context)
             throw std::runtime_error("no model source found: \"" + source_it->second + "\"");
         }
 
-        return model.value();
+        return *model;
     }
 
     throw std::runtime_error("model tag must contain \"build\" or \"source\" attributes");

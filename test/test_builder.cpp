@@ -334,15 +334,6 @@ TEST(TestStage, TestStage) {
 }
 
 TEST(TestStageBuilder, TestStageLink) {
-    {
-        auto config = R"(
-        <?xml version='1.0'?>
-        <stage link='base'/>
-        )";
-        ModuleData data;
-        ASSERT_THROW(ReadConfig(config, data), std::runtime_error) << "config is invalid, missing link";
-    }
-
     auto config = R"(
     <?xml version='1.0'?>
     <module>

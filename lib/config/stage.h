@@ -13,9 +13,11 @@ namespace config_builder {
 
     class BaseStage;
     class DrainStage;
+    class MockStage;
     using Stage = std::variant<
         BaseStage,
-        DrainStage
+        DrainStage,
+        MockStage
     >;
 
     class BaseStage {
@@ -39,6 +41,11 @@ namespace config_builder {
         bool Propogate(const cola::Particle& particle);
 
         cola::EventParticles result;
+    };
+
+    class MockStage {
+    public:
+        bool Propogate(const cola::Particle& particle);
     };
 
 } // namespace config_builder
